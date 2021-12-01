@@ -1,0 +1,135 @@
+@import 'src/app/styles/colors';
+
+.tab-content {
+  box-sizing: border-box;
+  margin-left: 250px;
+  padding: 2em;
+  height: 100%;
+  overflow: auto;
+}
+
+.page-title-container{
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+  h1{
+    font-family: 'GT Haptic Light', serif;
+    font-style: normal;
+    font-weight: 400;
+    font-size: 24px;
+    line-height: 30px;
+    color: $primary-disabled-text;
+    margin-bottom: 1em;
+    vertical-align: center;
+  }
+}
+.page-subtitle-container {
+  padding-top: 40px;
+}
+.content-container{
+  width: 50%;
+}
+.scroll-container{
+  overflow: scroll;
+  width: 100%;
+  border: 1px solid $border-primary;
+  height: 400px;
+  margin-bottom: 1em;
+  position: relative;
+  padding: 1em;
+
+}
+
+
+span {
+  font-family: 'GT Haptic', serif;
+  font-style: normal;
+  font-size: 16px;
+  line-height: 20px;
+  color: $primary-disabled-text;
+  text-transform: uppercase;
+}
+
+.field-prompt {
+  display: flex;
+  color: $primary-prompt;
+  font-size: 12px;
+  line-height: 16px;
+  max-height: 200px;
+  padding: 0;
+}
+
+.input-container {
+  padding: 0.75rem 0;
+  display: block;
+
+  .field-width {
+    margin-top: 4px;
+
+    input {
+      width: 100%;
+    }
+
+    textarea {
+      width: 100%;
+    }
+  }
+  label {
+    color: $primary-prompt;
+  }
+  .required{
+    color: $primary-error;
+  }
+}
+
+.mat-select{
+  box-sizing: border-box;
+  height: 50px;
+  padding: 15px 15px;
+  line-height: 20px;
+  border: 1px solid $border-primary;
+}
+
+::ng-deep .mat-select-panel .mat-option-text {
+  font-family: Open Sans, 'Open Sans', serif;
+  font-style: normal;
+  font-size: 16px;
+  line-height: 20px;
+}
+
+::ng-deep .mat-option-text {
+  font-family: Open Sans, 'Open Sans', serif;
+  font-style: normal;
+  font-size: 16px;
+  line-height: 20px;
+}
+
+::ng-deep .mat-select-placeholder {
+  color: $primary-disabled-text !important;
+}
+
+::ng-deep .mat-select-min-line{
+  font-family: Open Sans, 'Open Sans', serif;
+  font-style: normal;
+  font-size: 16px!important;
+}
+
+.control-buttons{
+  vertical-align: center;
+
+  button{
+    vertical-align: center;
+    display: inline-block;
+  }
+  .right-margin{
+    margin-right: 15px;
+  }
+}
+
+@media screen and (max-width: 1300px) {
+  .tab-content {
+    margin-left: 200px;
+  }
+}
+

@@ -1,0 +1,202 @@
+<div class="tab-content" *ngIf="router.url === '/edit'">
+  <div class="page-title-container">
+    <h1>Edit Company</h1>
+    <div class="control-buttons">
+      <button class="neutral right-margin" (click)="goBack()">CANCEL</button>
+      <button (click)="saveChanges()">SAVE</button>
+    </div>
+  </div>
+
+  <div class="content-container" *ngIf="user">
+    <div class="center-container">
+      <div [formGroup]="userForm">
+        <div class="page-subtitle-container">
+          <span>
+            company representative
+          </span>
+        </div>
+
+        <div class="input-container">
+          <label>First Name <span class="required">*</span></label>
+          <div class="field-margin field-width">
+            <input type="text" id="firstName" placeholder="Enter first name"
+                   formControlName="firstName"/>
+          </div>
+        </div>
+
+        <div class="input-container">
+          <label>Last Name <span class="required">*</span></label>
+          <div class="field-width">
+            <input type="text" id="lastName" placeholder="Enter last name"
+                   formControlName="lastName"/>
+          </div>
+        </div>
+
+        <div class="input-container">
+          <label>Role</label>
+          <div class="field-width">
+            <input type="text" id="role" placeholder="Enter role"
+                   formControlName="role"/>
+          </div>
+        </div>
+
+        <div class="input-container">
+          <label>Contact Phone <span class="required">*</span></label>
+          <div class="field-width wrapper">
+            <input type="tel" id="contactPhone" placeholder="Enter phone"
+                   formControlName="contactPhone"/>
+          </div>
+        </div>
+
+        <div class="input-container">
+          <label>Contact Email</label>
+          <div class="field-width">
+            <input type="email" id="contactEmail" placeholder="Enter contact email"
+                   formControlName="contactEmail"/>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="content-container" *ngIf="(!isSales && company) || (isSales && company.salesPartnerType === 'ORGANISATION')">
+      <div class="center-container">
+        <div [formGroup]="companyDetailsForm">
+          <div class="page-subtitle-container">
+            <span>
+              general information
+            </span>
+          </div>
+          <div class="input-container">
+            <label>Company Name <span class="required">*</span></label>
+            <div class="field-width">
+              <input type="text" id="companyName" placeholder="Enter name" formControlName="companyName"/>
+            </div>
+          </div>
+          <div class="input-container">
+            <label>Overview <span class="required">*</span></label>
+            <div class="field-width">
+              <textarea id="overview" placeholder="Enter company overview"
+                        formControlName="overview">
+              </textarea>
+              <label for="overview" class="field-prompt">
+                Please provide a short summary of your company and it’s main activities to be shared with other users
+              </label>
+            </div>
+          </div>
+
+          <div class="input-container">
+            <label>Website <span class="required">*</span></label>
+            <div class="field-width">
+              <input type="url" id="website" placeholder="Enter url, e.g. near-shoring.com"
+                     formControlName="website"/>
+            </div>
+          </div>
+          <div class="input-container">
+            <label>Company Size (in number of employees)</label>
+            <div class="field-width">
+              <input type="number" id="companySize" placeholder="Enter number of employees"
+                     formControlName="companySize"/>
+            </div>
+          </div>
+
+          <div class="input-container" *ngIf="!isDelivery">
+            <label>Type</label>
+            <div class="field-width">
+              <mat-select id="type" placeholder="Choose company type" formControlName="type">
+                <mat-option *ngFor="let type of companyTypes" [value]="type.value">
+                  {{type.viewValue}}
+                </mat-option>
+              </mat-select>
+            </div>
+          </div>
+
+          <!--<div class="input-container">
+            <label>Founded (Year)</label>
+            <div class="field-width">
+              <input type="number" id="foundedYear" placeholder="Enter year"
+                     formControlName="foundedYear"/>
+            </div>
+          </div>-->
+
+          <div class="input-container">
+              <label>Founded (Year)</label>
+              <div class="field-width">
+              <input type="number"
+                     placeholder="Enter year"
+                     formControlName="foundedYear"
+                     min="1900"
+                     [max]="currentYear"
+                     [matAutocomplete]="auto">
+              <mat-autocomplete autoActiveFirstOption #auto="matAutocomplete">
+                <mat-option *ngFor="let option of filteredOptions | async" [value]="option">
+                  {{option}}
+                </mat-option>
+              </mat-autocomplete>
+              </div>
+          </div>
+
+          <div class="input-container" *ngIf="isSales">
+            <label>Experience <span class="required">*</span></label>
+            <div class="field-width">
+              <textarea id="experience" placeholder="Enter company experience"
+                        formControlName="experience"></textarea>
+            </div>
+          </div>
+
+          <div class="input-container" *ngIf="isSales||isDelivery">
+            <label>Specialities <span class="required">*</span></label>
+            <div class="field-width">
+              <textarea id="specialities" placeholder="Enter company specialities"
+                        formControlName="specialities">
+              </textarea>
+              <label for="specialities" class="field-prompt">
+                Please share certain area of your organisation's specialisation and important capabilities that might be
+                relevant for other users
+              </label>
+            </div>
+          </div>
+
+          <app-upload-image [currentImage]="currentLogo"
+                            (isImageChanged)="enableSaveImage($event)"
+                            (newImage)="setNewImageLocal($event)" *ngIf="currentLogo"></app-upload-image>
+
+          <div class="page-subtitle-container">
+          <span>
+            contact information
+          </span>
+          </div>
+
+          <div class="input-container">
+            <label>Company Phone <span class="required">*</span></label>
+            <div class="field-width">
+              <input type="tel" id="companyPhone" placeholder="Enter company phone"
+                     formControlName="companyPhone"/>
+            </div>
+          </div>
+
+          <div class="input-container">
+            <label>Company Email <span class="required">*</span></label>
+            <div class="field-width">
+              <input type="email" id="companyEmail" placeholder="Enter contact email"
+                     formControlName="companyEmail"/>
+            </div>
+          </div>
+          <div class="input-container">
+            <label>HQ Location <span class="required">*</span></label>
+            <div class="field-width">
+              <input type="text" id="hqLocation"
+                     placeholder="Enter HQ location" formControlName="hqLocation"/>
+            </div>
+          </div>
+
+          <div class="input-container" *ngIf="isDelivery">
+            <label>Delivery Units Locations <span class="required">*</span></label>
+            <div class="field-width">
+              <input type="text" id="deliveryUnitsLocation" placeholder="Enter delivery units locations"
+                     formControlName="deliveryUnitsLocation"/>
+            </div>
+          </div>
+      </div>
+    </div>
+  </div>
+</div>

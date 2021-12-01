@@ -1,0 +1,120 @@
+<router-outlet></router-outlet>
+<div class="tab-content" *ngIf="user && router.url !== '/edit'">
+  <div class="page-title-container" *ngIf="!isAdmin && userId && (!profileId || (profileId === userId))">
+    <h1>My Profile</h1>
+    <button class="outline" (click)="editUser()">EDIT</button>
+  </div>
+  <div class="page-title-container" *ngIf="isAdmin && profileId !== userId">
+    <div class="control-buttons">
+      <img class="go-back-arrow" src="../../../../../assets/svg/ic_left_arrow.svg" alt="back" (click)="goBack()"/>
+      <h1>Profile</h1>
+    </div>
+    <div class="control-buttons" *ngIf="user.approvalStatus === 'WAIT_FOR_APPROVAL'">
+      <div class="nav-button">
+        <button class="right-margin"
+                (click)="approveSelected()">Approve</button>
+      </div>
+      <div class="nav-button" *ngIf="user.approvalStatus === 'WAIT_FOR_APPROVAL'">
+        <button class="neutral" (click)="declineSelected()">Decline</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="page-title-container" *ngIf="!isAdmin && profileId && profileId !== userId">
+    <div class="control-buttons">
+      <img class="go-back-arrow" src="../../../../../assets/svg/ic_left_arrow.svg" alt="back" (click)="goBack()"/>
+      <h1>Profile</h1>
+    </div>
+  </div>
+
+  <div class="company-contact-information" *ngIf="company.companyName">
+    <div class="profile-logo right-margin-medium">
+      <img [src]=profileLogo alt="company_logo" class="company-logo">
+    </div>
+    <div class="contact-information">
+      <div class="company-name" *ngIf="company.companyName">
+      <h2 class="right-margin">{{company.companyName}}</h2>
+        <div class="approval-status-chips" *ngIf="isAdmin">
+        <div class="approval-status-chips accepted" *ngIf="user.approvalStatus === 'ACCEPTED'">
+          ACCEPTED
+        </div>
+        <div class="approval-status-chips pending" *ngIf="user.approvalStatus === 'WAIT_FOR_APPROVAL'">
+          APPROVAL
+        </div>
+        <div class="approval-status-chips declined" *ngIf="user.approvalStatus === 'DECLINED'">
+          DECLINED
+        </div>
+        <div class="approval-status-chips draft" *ngIf="user.approvalStatus === 'DRAFT'">
+          DRAFT
+        </div>
+        </div>
+    </div>
+      <div class="company-contacts" *ngIf="company.companyPhone">
+      <span class="right-margin">
+        <img src="../../../../assets/svg/ic_phone.svg" alt="phone">
+        {{company.companyPhone}}
+      </span>
+      <span *ngIf="company.companyEmail" class="right-margin">
+        <img src="../../../../assets/svg/ic_email.svg" alt="email">
+        {{company.companyEmail}}
+      </span>
+      <span *ngIf="company.website">
+        <img src="../../../../assets/svg/ic_website.svg" alt="website">
+        <a *ngIf="!company.website.match('^(https?|ftp)://.*$')" href="https://{{company.website}}" target="_blank">
+          {{company.website}}</a>
+        <a *ngIf="company.website.match('^(https?|ftp)://.*$')" href="{{company.website}}" target="_blank">
+          {{company.website}}</a>
+      </span>
+    </div>
+    </div>
+  </div>
+
+  <div class="user-information">
+      <label>Company representative</label>
+    <div class="user-name-role">
+      <h2 *ngIf="user.firstName">{{user.firstName}}</h2>
+      <h2 *ngIf="user.lastName"> {{user.lastName}}</h2>
+      <h2 *ngIf="user.role"> &#183; {{user.role}}</h2>
+    </div>
+    <div class="user-contacts">
+      <span class="right-margin"><img src="../../../../assets/svg/ic_phone.svg" alt="phone">{{user.contactPhone}}</span>
+      <span *ngIf="user.contactEmail"><img src="../../../../assets/svg/ic_email.svg" alt="email">{{user.contactEmail}}</span>
+    </div>
+  </div>
+
+  <div class="company-additional-information">
+    <div class="additional-ifo-container" *ngIf="company.overview">
+      <label>Overview</label>
+      <span>{{company.overview}}</span>
+    </div>
+    <div class="additional-ifo-container" *ngIf="user.type !== 'CUSTOMER' && company.specialities">
+      <label>Specialities</label>
+      <span>{{company.specialities}}</span>
+    </div>
+    <div class="additional-ifo-container" *ngIf="user.type === 'SALES_PARTNER' && company.experience">
+      <label>Experience</label>
+      <span>{{company.experience}}</span>
+    </div>
+    <div class="additional-ifo-container" *ngIf="company.companySize">
+      <label>Company Size</label>
+      <span>{{company.companySize}}</span>
+    </div>
+    <div class="additional-ifo-container" *ngIf="(user.type !== 'DELIVERY_PARTNER') && company.type">
+      <label>Type</label>
+      <span>{{company.type}}</span>
+    </div>
+    <div class="additional-ifo-container" *ngIf="company.foundedYear">
+      <label>Founded (Year)</label>
+      <span>{{company.foundedYear}}</span>
+    </div>
+    <div class="additional-ifo-container" *ngIf="company.hqLocation">
+      <label>HQ Location</label>
+      <span>{{company.hqLocation}}</span>
+    </div>
+    <div class="additional-ifo-container" *ngIf="user.type === 'DELIVERY_PARTNER' && company.deliveryUnitsLocation">
+      <label>Delivery Units Locations</label>
+      <span>{{company.deliveryUnitsLocation}}</span>
+    </div>
+  </div>
+</div>
+
